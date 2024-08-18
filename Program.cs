@@ -5,6 +5,9 @@ using SimarAlertNotifier.Services.Mail;
 using Quartz;
 using SimarAlertNotifier.DependencyInjection;
 using SimarAlertNotifier.Schedulers;
+using Azure.Identity;
+using Azure.Core;
+using Microsoft.Data.SqlClient;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,7 +25,10 @@ builder.Services.AddDbContext<SimarDbContext>(options =>
     }
     else
     {
-        options.UseSqlServer(builder.Configuration.GetConnectionString("LocalSqlServer"));
+        var sqlConnection = new SqlConnection(builder.Configuration.GetConnectionString("LocalSqlServer"));
+        var tokenCredential = new DefaultAzureCredential();
+        sqlConnection.AccessToken = tokenCredential.GetToken(new TokenRequestContext(new[] { "https://database.windows.net/.default" })).Token;
+        options.UseSqlServer(sqlConnection);
     }
 });
 
