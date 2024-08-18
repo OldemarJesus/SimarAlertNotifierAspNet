@@ -1,0 +1,50 @@
+﻿@model SimarAlertNotifier.Models.Forms.SubscribeSimarAlertForm;
+@{
+    ViewData["Title"] = "Subscrever";
+}
+
+<div>
+    <div class="row justify-content-center">
+        <div class="col-6">
+            <h1>Gostaria de receber alertas do SIMAR?</h1>
+            <hr />
+            <form asp-action="Create" asp-controller="Subscriber" method="post" id="CreateSubscriberForm">
+                <div class="mb-3">
+                    <label for="email" class="form-label">Endereço de e-mail:</label>
+                    <input type="email" class="form-control" id="email" aria-describedby="emailHelp" asp-for="email">
+                    <input type="hidden" class="form-control" id="op" asp-for="operation" value="add">
+                    <div id="emailHelp" class="form-text">E-mail pelo qual pretende receber novos alertas do SIMAR!</div>
+                </div>
+                <button type="submit" class="btn btn-primary">Subscrever</button>
+                <button type="button" class="btn btn-danger" onclick="changeOperationTo('del')">Cancelar Subscrição</button>
+            </form>
+
+            @if(ViewBag.Error is not null)
+            {
+                <hr />
+                <div class="alert alert-danger" role="alert">
+                    @ViewBag.Error
+                </div>
+            }
+
+            @if (ViewBag.Success is not null)
+            {
+                <hr />
+                <div class="alert alert-success" role="alert">
+                    @ViewBag.Success
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<script>
+    const changeOperationTo = function (op) {
+        if (op != null && op != undefined && op.length > 0) {
+            const form = document.getElementById("CreateSubscriberForm")
+            const opInput = document.getElementById("op")
+            opInput.value = op
+            form.submit()
+        }
+    }
+</script>

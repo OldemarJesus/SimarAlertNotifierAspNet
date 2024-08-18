@@ -32,25 +32,6 @@ namespace SimarAlertNotifier.Controllers
             return View(alerts);
         }
 
-        [HttpGet]
-        public IActionResult Subscribe()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public IActionResult Subscribe([FromForm] SubscribeSimarAlertForm subscribeData)
-        {
-            // TODO: Add Email To Database
-            List<Alert> alerts = _alertService.GetAlertsAsync().Result;
-            foreach (var alert in alerts)
-            {
-                // send email
-                _mailService.Send(subscribeData.email, "Simar Alert", alert.message);
-            }
-            return RedirectToAction("Alert");
-        }
-
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
