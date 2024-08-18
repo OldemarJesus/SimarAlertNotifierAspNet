@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+using SimarAlertNotifier.Data;
 using SimarAlertNotifier.Services;
 using SimarAlertNotifier.Services.Mail;
 
@@ -7,6 +9,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddSingleton<SimarAlertService>();
 builder.Services.AddTransient<IMailService, SendgridMailService>();
+
+// Add database context
+builder.Services.AddDbContext<SimarDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("SimarDb")));
+
 
 var app = builder.Build();
 
