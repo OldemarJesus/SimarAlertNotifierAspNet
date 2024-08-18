@@ -1,6 +1,5 @@
 using SimarAlertNotifier.Services;
 using SimarAlertNotifier.Services.Mail;
-using System.Net.Mail;
 
 var builder = WebApplication.CreateBuilder(args);
 

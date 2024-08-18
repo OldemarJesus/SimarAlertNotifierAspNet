@@ -25,10 +25,10 @@ namespace SimarAlertNotifier.Controllers
             return View();
         }
 
-        public async Task<IActionResult> Alert()
+        public IActionResult Alert()
         {
             // load alerts from external simar api
-            List<Alert>? alerts = await _alertService.GetAlertsAsync();
+            List<Alert>? alerts = _alertService.GetAlertsAsync().Result;
             return View(alerts);
         }
 
@@ -39,9 +39,15 @@ namespace SimarAlertNotifier.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Subscribe([FromForm] SubscribeSimarAlertForm subscribeData)
+        public IActionResult Subscribe([FromForm] SubscribeSimarAlertForm subscribeData)
         {
             // TODO: Add Email To Database
+            List<Alert> alerts = _alertService.GetAlertsAsync().Result;
+            foreach (var alert in alerts)
+            {
+                // send email
+                _mailService.Send(subscribeData.email, "Simar Alert", alert.message);
+            }
             return RedirectToAction("Alert");
         }
 

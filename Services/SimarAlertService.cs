@@ -11,10 +11,10 @@ namespace SimarAlertNotifier.Services
         private static HttpClient _httpClient = new HttpClient();
 
         // instantiate http client to be used with simar endpoint api
-        public SimarAlertService(IConfiguration configuration)
+        public SimarAlertService()
         {
             
-            string? simarApiUri = configuration.GetValue<string>("SimarAlertApiUrl");
+            string? simarApiUri = Environment.GetEnvironmentVariable("SIMAR_ALERT_API_URL");
 
             if (simarApiUri is null)
             {

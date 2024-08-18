@@ -9,13 +9,13 @@ namespace SimarAlertNotifier.Services.Mail
         private readonly string _defaultFromEmail = string.Empty;
 
         // intialize mail service
-        public SendgridMailService(IConfiguration configuration)
+        public SendgridMailService()
         {
-            var url = configuration["Mail:Url"];
-            var port = configuration["Mail:Port"];
-            var username = configuration["Mail:Username"];
-            var password = configuration["Mail:Password"];
-            var defaultFromEmail = configuration["Mail:DefaultFromEmail"];
+            var url = Environment.GetEnvironmentVariable("MAIL_URL");
+            var port = Environment.GetEnvironmentVariable("MAIL_PORT");
+            var username = Environment.GetEnvironmentVariable("MAIL_USERNAME");
+            var password = Environment.GetEnvironmentVariable("MAIL_PASSWORD");
+            var defaultFromEmail = Environment.GetEnvironmentVariable("MAIL_DEFAULT_FROM");
 
             if (username is null || url is null || defaultFromEmail is null || password is null || port is null)
             {
@@ -27,7 +27,7 @@ namespace SimarAlertNotifier.Services.Mail
                 Host = url,
                 Port = int.Parse(port),
                 Credentials = new NetworkCredential(username, password),
-                EnableSsl = false,
+                EnableSsl = true,
                 UseDefaultCredentials = false
             };
 
