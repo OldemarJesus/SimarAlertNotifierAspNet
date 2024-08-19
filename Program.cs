@@ -27,7 +27,7 @@ builder.Services.AddDbContext<SimarDbContext>(options =>
     {
         var sqlConnection = new SqlConnection(builder.Configuration.GetConnectionString("LocalSqlServer"));
         var tokenCredential = new DefaultAzureCredential();
-        sqlConnection.AccessToken = tokenCredential.GetToken(new TokenRequestContext(new[] { "https://database.windows.net/.default" })).Token;
+        sqlConnection.AccessToken = tokenCredential.GetToken(new TokenRequestContext(new[] { "https://simardb.database.windows.net/.default" })).Token;
         options.UseSqlServer(sqlConnection);
     }
 });
