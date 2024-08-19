@@ -15,7 +15,7 @@ namespace SimarAlertNotifier.DependencyInjection
 
             if (string.IsNullOrEmpty(cronExpression))
             {
-                throw new Exception($"Cron expression for job {jobName} is not found in configuration.");
+                throw new Exception($"Cron expression for job {jobName} with key {configKey} is not found in configuration.");
             }
 
             var jobKey = new JobKey(jobName);

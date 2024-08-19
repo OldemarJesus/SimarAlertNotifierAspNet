@@ -31,7 +31,7 @@ namespace SimarAlertNotifier.Schedulers
             _logger.LogInformation("SimarEmailNotificationJob is executing at {time}", DateTime.UtcNow);
 
             var mailFrom = Environment.GetEnvironmentVariable("MAIL_DEFAULT_FROM");
-            var serverUrl = Environment.GetEnvironmentVariable("HTTP_HOST");
+            var serverUrl = Environment.GetEnvironmentVariable("SITE_URL");
 
             if (string.IsNullOrEmpty(mailFrom))
             {
@@ -41,7 +41,7 @@ namespace SimarAlertNotifier.Schedulers
 
             if (string.IsNullOrEmpty(serverUrl))
             {
-                _logger.LogError("HTTP_HOST environment variable is not set.");
+                _logger.LogError("SITE_URL environment variable is not set.");
                 return Task.CompletedTask;
             }
 

@@ -5,9 +5,6 @@ using SimarAlertNotifier.Services.Mail;
 using Quartz;
 using SimarAlertNotifier.DependencyInjection;
 using SimarAlertNotifier.Schedulers;
-using Azure.Identity;
-using Azure.Core;
-using Microsoft.Data.SqlClient;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,7 +15,9 @@ builder.Services.AddTransient<IMailService, SendgridMailService>();
 
 // Add database context
 builder.Services.AddDbContext<SimarDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("SimarDb")));
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("SimarDb"));
+});
 
 // Add Scheduler
 builder.Services.AddQuartz(op =>
