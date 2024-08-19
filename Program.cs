@@ -18,19 +18,7 @@ builder.Services.AddTransient<IMailService, SendgridMailService>();
 
 // Add database context
 builder.Services.AddDbContext<SimarDbContext>(options =>
-{
-    if (builder.Environment.IsDevelopment())
-    {
-        options.UseSqlServer(builder.Configuration.GetConnectionString("SimarDb"));
-    }
-    else
-    {
-        var sqlConnection = new SqlConnection(builder.Configuration.GetConnectionString("LocalSqlServer"));
-        var tokenCredential = new DefaultAzureCredential();
-        sqlConnection.AccessToken = tokenCredential.GetToken(new TokenRequestContext(new[] { "https://simardb.database.windows.net/.default" })).Token;
-        options.UseSqlServer(sqlConnection);
-    }
-});
+    options.UseSqlServer(builder.Configuration.GetConnectionString("SimarDb")));
 
 // Add Scheduler
 builder.Services.AddQuartz(op =>
