@@ -16,7 +16,12 @@ builder.Services.AddTransient<IMailService, SendgridMailService>();
 // Add database context
 builder.Services.AddDbContext<SimarDbContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("SimarDb"));
+    options.UseSqlServer(
+        builder.Configuration.GetConnectionString("SimarDb"),
+        op => op.EnableRetryOnFailure(
+            maxRetryCount: 3,
+            maxRetryDelay: System.TimeSpan.FromSeconds(30),
+            errorNumbersToAdd: null));
 });
 
 // Add Scheduler
